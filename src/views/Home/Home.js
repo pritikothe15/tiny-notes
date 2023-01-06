@@ -13,6 +13,22 @@ function Home() {
    
   ]);
 
+  //triggers initially
+  useEffect(()=>{
+       const notes =localStorage.getItem("notes") 
+       if (notes){
+        setNotes(JSON.parse(notes))
+      }
+  },[])
+
+  //triggers when note changes 
+  useEffect(()=>{
+    if (notes.length >1){
+      localStorage.setItem("notes",JSON.stringify(notes))
+    }
+  },[notes])
+
+
   const [title,setTitle]=useState("")
   const [content,setContent]=useState("")
 
@@ -56,7 +72,7 @@ function Home() {
         <div className="col-md-6">
           <div className="notes-container">
             {notes.map((note, index) => {
-              return <Note Title={note.title} Content={note.content} />;
+              return <Note Title={note.title} Content={note.content} noteIndex={index} />;
             })}
           </div>
         </div>
